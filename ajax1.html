@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ajax 1 - Text File</title>
+  </head>
+  <body>
+    <button id="button">Get text here</button>
+    <br />
+    <hr />
+
+    <div id="text"></div>
+
+    <script>
+      document.getElementById("button").addEventListener("click", loadData);
+
+      function loadData() {
+        let xhr = new XMLHttpRequest();
+        // OPEN - type, url/file, async
+        xhr.open("GET", "test.txt", true);
+        console.log("READYSTATE: ", xhr.readyState);
+
+        // ONPROGRESS - (optional) used for loaders
+        xhr.onprogress = function () {
+          console.log("READYSTATE: ", xhr.readyState);
+          console.log("onprogress");
+        };
+
+        //xhr.onload = function () {
+        //  if (this.status == 200) {
+        //    console.log(this.responseText);
+        //  }
+        //};
+
+        // Need to be used with onload
+        //xhr.onerror = function () {
+        //  console.log("Request error...");
+        //};
+
+        xhr.onreadystatechange = function () {
+          console.log("READYSTATE: ", xhr.readyState);
+          if (this.readyState == 4 && this.status == 200) {
+            document.getElementById("text").innerHTML = this.responseText;
+          }
+        };
+
+        // Sends request ot the server
+        xhr.send();
+
+        // readyState Values
+        // 0: request not initialized
+        // 1: server connection established
+        // 2: request received
+        // 3: processing request
+        // 4: request finished and response is ready
+      }
+    </script>
+  </body>
+</html>
